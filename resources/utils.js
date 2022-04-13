@@ -9,6 +9,8 @@ const HAMSTER1 = 'https://en.meming.world/images/en/5/5f/Scared_Hamster.jpg';
 const HAMSTER2 =
   'https://i.pinimg.com/736x/f6/6a/f5/f66af5e07fed4fb306f5a6cc3c4ddf16.jpg';
 const HAMSTER3 = 'https://media.bunjang.co.kr/images/crop/635932315_w320.jpg';
+const HAMSTER4 =
+  'https://www.meme-arsenal.com/memes/a92519f443f6875df1ca4b77c081f14a.jpg';
 
 const includesHangul = (text) => /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/i.test(text);
 
