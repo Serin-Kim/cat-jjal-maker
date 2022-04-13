@@ -25,10 +25,6 @@
     flex-wrap: wrap;
     gap: 15px;
   }
-
-  .favorites img {
-    width: 150px;
-  }
 </style>
 
 <body>
@@ -40,49 +36,55 @@
   <script type="text/babel">
     console.log("야옹");
 
-    const title = (
-      <h1>1번째 고양이 가라사대</h1>
-    );
+    const Title = (props) => {
+      return <h1>{props.children}</h1>;
+    }
 
-    const form = (
+    const Form = () => (
       <form>
         <input type="text" name="name" placeholder="영어 대사를 입력해주세요" />
         <button type="submit">생성</button>
       </form>
     );
 
-    const catItem = (
-      <li>
-        <img src="https://en.meming.world/images/en/5/5f/Scared_Hamster.jpg" alt="" />
-      </li>
-    );
 
-    const favorites = (
-      <ul class="favorites">
-        {catItem}
-        {catItem}
-        {catItem}
-      </ul>
-    );
+    const CatItem = (props) => {
+      return (
+        <li>
+          <img src={props.img} style={{ width: '150px' }} />
+        </li>
+      );
+    }
 
-    const mainCard = (
-      <div class="main-card">
-        <img src="https://en.meming.world/images/en/5/5f/Scared_Hamster.jpg" alt="고양이" width="400" />
-        <button>🤍</button>
-      </div>
-    );
+    const Favorites = () => {
+      return (
+        <ul className="favorites">
+          <CatItem img="https://en.meming.world/images/en/5/5f/Scared_Hamster.jpg" />
+          <CatItem img="https://i.pinimg.com/736x/f6/6a/f5/f66af5e07fed4fb306f5a6cc3c4ddf16.jpg" />
+          <CatItem img="https://media.bunjang.co.kr/images/crop/635932315_w320.jpg" />
+        </ul>
+      );
+    }
 
+    const MainCard = ({ img }) => {
+      return (
+        <div className="main-card">
+          <img src={img} alt="고양이" width="400" />
+          <button>🤍</button>
+        </div>
+      );
+    }
 
 
     const app = (
       <div>
-        {title}
-        {form}
-        {mainCard}
-        {favorites}
+        <Title>1번째 고양이 가라사대</Title>
+        <Form />
+        <MainCard img="https://i.pinimg.com/736x/f6/6a/f5/f66af5e07fed4fb306f5a6cc3c4ddf16.jpg" />
+        <Favorites />
       </div>
-
     )
+
     const 여기다가그려 = document.querySelector('#app');
 
     ReactDOM.render(app, 여기다가그려);
