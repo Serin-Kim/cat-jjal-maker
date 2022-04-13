@@ -67,11 +67,22 @@
       };
 
       const Favorites = () => {
+        const HAMSTER1 =
+          'https://i.pinimg.com/736x/f6/6a/f5/f66af5e07fed4fb306f5a6cc3c4ddf16.jpg';
+        const HAMSTER2 =
+          'https://www.meme-arsenal.com/memes/a92519f443f6875df1ca4b77c081f14a.jpg';
+        const HAMSTER3 =
+          'https://media.bunjang.co.kr/images/crop/635932315_w320.jpg';
+        const HAMSTER4 =
+          'https://en.meming.world/images/en/5/5f/Scared_Hamster.jpg';
+
+        const hamsters = [HAMSTER4, HAMSTER2, HAMSTER3];
+
         return (
           <ul className="favorites">
-            <HamsterItem img="https://en.meming.world/images/en/5/5f/Scared_Hamster.jpg" />
-            <HamsterItem img="https://www.meme-arsenal.com/memes/a92519f443f6875df1ca4b77c081f14a.jpg" />
-            <HamsterItem img="https://media.bunjang.co.kr/images/crop/635932315_w320.jpg" />
+            {hamsters.map((hamster) => (
+              <HamsterItem img={hamster} key={hamster} />
+            ))}
           </ul>
         );
       };
@@ -97,7 +108,17 @@
       };
 
       const App = () => {
+        const HAMSTER1 =
+          'https://i.pinimg.com/736x/f6/6a/f5/f66af5e07fed4fb306f5a6cc3c4ddf16.jpg';
+        const HAMSTER2 =
+          'https://www.meme-arsenal.com/memes/a92519f443f6875df1ca4b77c081f14a.jpg';
+        const HAMSTER3 =
+          'https://media.bunjang.co.kr/images/crop/635932315_w320.jpg';
+        const HAMSTER4 =
+          'https://en.meming.world/images/en/5/5f/Scared_Hamster.jpg';
+
         const [counter, setCounter] = React.useState(1);
+        const [mainHamster, setMainHamster] = React.useState(HAMSTER1);
 
         console.log('카운터', counter);
 
@@ -105,13 +126,14 @@
           event.preventDefault();
           console.log('폼 전송됨');
           setCounter(counter + 1);
+          setMainHamster(HAMSTER2);
         }
 
         return (
           <div>
             <Title>{counter}번째 햄스터 가라사대</Title>
             <Form handleFormSubmit={handleFormSubmit} />
-            <MainCard img="https://i.pinimg.com/736x/f6/6a/f5/f66af5e07fed4fb306f5a6cc3c4ddf16.jpg" />
+            <MainCard img={mainHamster} />
             <Favorites />
           </div>
         );
