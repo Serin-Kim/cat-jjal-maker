@@ -39,6 +39,15 @@
     ></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script type="text/babel">
+      const jsonLocalStorage = {
+        setItem: (key, value) => {
+          localStorage.setItem(key, JSON.stringify(value));
+        },
+        getItem: (key) => {
+          return JSON.parse(localStorage.getItem(key));
+        },
+      };
+
       const Title = (props) => {
         return <h1>{props.children}</h1>;
       };
@@ -120,17 +129,25 @@
         const HAMSTER4 =
           'https://en.meming.world/images/en/5/5f/Scared_Hamster.jpg';
 
-        const [counter, setCounter] = React.useState(1);
+        const [counter, setCounter] = React.useState(
+          jsonLocalStorage.getItem('counter')
+        );
         const [mainHamster, setMainHamster] = React.useState(HAMSTER1);
-        const [favorites, setFavorites] = React.useState([HAMSTER4, HAMSTER2]);
+        const [favorites, setFavorites] = React.useState(
+          jsonLocalStorage.getItem('favorites') || []
+        );
 
         function updateMainHamster(event) {
           setMainHamster(HAMSTER2);
-          setCounter(counter + 1);
+          const nextCounter = counter + 1;
+          setCounter(nextCounter);
+          jsonLocalStorage.setItem('counter', nextCounter);
         }
 
         function handleHeartClick() {
-          setFavorites([...favorites, HAMSTER3]);
+          const nextFavorites = [...favorites, mainHamster];
+          setFavorites(nextFavorites);
+          jsonLocalStorage.setItem('favorites', nextFavorites);
         }
 
         return (
