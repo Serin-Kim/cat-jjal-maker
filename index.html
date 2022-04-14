@@ -66,43 +66,21 @@
         );
       };
 
-      const Favorites = () => {
-        const HAMSTER1 =
-          'https://i.pinimg.com/736x/f6/6a/f5/f66af5e07fed4fb306f5a6cc3c4ddf16.jpg';
-        const HAMSTER2 =
-          'https://www.meme-arsenal.com/memes/a92519f443f6875df1ca4b77c081f14a.jpg';
-        const HAMSTER3 =
-          'https://media.bunjang.co.kr/images/crop/635932315_w320.jpg';
-        const HAMSTER4 =
-          'https://en.meming.world/images/en/5/5f/Scared_Hamster.jpg';
-
-        const hamsters = [HAMSTER4, HAMSTER2, HAMSTER3];
-
+      const Favorites = ({ favorites }) => {
         return (
           <ul className="favorites">
-            {hamsters.map((hamster) => (
+            {favorites.map((hamster) => (
               <HamsterItem img={hamster} key={hamster} />
             ))}
           </ul>
         );
       };
 
-      const MainCard = ({ img }) => {
-        function handleHeartClick() {
-          console.log('하트 눌렀음');
-        }
-        function handleHeartMouseOver() {
-          console.log('하트 스쳐 지나감');
-        }
+      const MainCard = ({ img, handleHeartClick }) => {
         return (
           <div className="main-card">
             <img src={img} alt="햄스터" width="400" />
-            <button
-              onClick={handleHeartClick}
-              onMouseOver={handleHeartMouseOver}
-            >
-              🤍
-            </button>
+            <button onClick={handleHeartClick}>🤍</button>
           </div>
         );
       };
@@ -119,6 +97,7 @@
 
         const [counter, setCounter] = React.useState(1);
         const [mainHamster, setMainHamster] = React.useState(HAMSTER1);
+        const [favorites, setFavorites] = React.useState([HAMSTER4, HAMSTER2]);
 
         console.log('카운터', counter);
 
@@ -129,12 +108,17 @@
           setMainHamster(HAMSTER2);
         }
 
+        function handleHeartClick() {
+          console.log('하트 눌렀음');
+          setFavorites([...favorites, HAMSTER3]);
+        }
+
         return (
           <div>
             <Title>{counter}번째 햄스터 가라사대</Title>
             <Form handleFormSubmit={handleFormSubmit} />
-            <MainCard img={mainHamster} />
-            <Favorites />
+            <MainCard img={mainHamster} handleHeartClick={handleHeartClick} />
+            <Favorites favorites={favorites} />
           </div>
         );
       };
