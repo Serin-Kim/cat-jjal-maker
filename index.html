@@ -39,13 +39,11 @@
     ></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script type="text/babel">
-      console.log('야옹');
-
       const Title = (props) => {
         return <h1>{props.children}</h1>;
       };
 
-      const Form = () => {
+      const Form = ({ updateMainHamster }) => {
         const includesHangul = (text) => /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/i.test(text);
         const [value, setValue] = React.useState('');
         const [errorMessage, setErrorMessage] = React.useState('');
@@ -65,7 +63,9 @@
           setErrorMessage('');
           if (value === '') {
             setErrorMessage('빈 값으로 만들 수 없습니다.');
+            return;
           }
+          updateMainHamster();
         }
 
         return (
@@ -101,11 +101,11 @@
         );
       };
 
-      const MainCard = ({ img, handleHeartClick }) => {
+      const MainCard = ({ img, onHeartClick }) => {
         return (
           <div className="main-card">
             <img src={img} alt="햄스터" width="400" />
-            <button onClick={handleHeartClick}>🤍</button>
+            <button onClick={onHeartClick}>🤍</button>
           </div>
         );
       };
@@ -124,25 +124,20 @@
         const [mainHamster, setMainHamster] = React.useState(HAMSTER1);
         const [favorites, setFavorites] = React.useState([HAMSTER4, HAMSTER2]);
 
-        console.log('카운터', counter);
-
-        function handleFormSubmit(event) {
-          event.preventDefault();
-          console.log('폼 전송됨');
-          setCounter(counter + 1);
+        function updateMainHamster(event) {
           setMainHamster(HAMSTER2);
+          setCounter(counter + 1);
         }
 
         function handleHeartClick() {
-          console.log('하트 눌렀음');
           setFavorites([...favorites, HAMSTER3]);
         }
 
         return (
           <div>
             <Title>{counter}번째 햄스터 가라사대</Title>
-            <Form handleFormSubmit={handleFormSubmit} />
-            <MainCard img={mainHamster} handleHeartClick={handleHeartClick} />
+            <Form updateMainHamster={updateMainHamster} />
+            <MainCard img={mainHamster} onHeartClick={handleHeartClick} />
             <Favorites favorites={favorites} />
           </div>
         );
