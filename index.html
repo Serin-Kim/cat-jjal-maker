@@ -129,22 +129,35 @@
       };
 
       const App = () => {
-        const HAMSTER1 =
+        const CAT1 =
           'https://i.pinimg.com/736x/f6/6a/f5/f66af5e07fed4fb306f5a6cc3c4ddf16.jpg';
-        const HAMSTER2 =
+        const CAT2 =
           'https://www.meme-arsenal.com/memes/a92519f443f6875df1ca4b77c081f14a.jpg';
-        const HAMSTER3 =
+        const CAT3 =
           'https://media.bunjang.co.kr/images/crop/635932315_w320.jpg';
-        const HAMSTER4 =
-          'https://en.meming.world/images/en/5/5f/Scared_Cat.jpg';
+        const CAT4 = 'https://en.meming.world/images/en/5/5f/Scared_Cat.jpg';
 
         const [counter, setCounter] = React.useState(
           jsonLocalStorage.getItem('counter')
         );
-        const [mainCat, setMainCat] = React.useState(HAMSTER1);
+        const [mainCat, setMainCat] = React.useState(CAT1);
         const [favorites, setFavorites] = React.useState(
           jsonLocalStorage.getItem('favorites') || []
         );
+
+        async function setInitialCat() {
+          const newCat = await fetchCat('First Cat');
+          console.log(newCat);
+          setMainCat(newCat);
+        }
+
+        React.useEffect(() => {
+          setInitialCat();
+        }, []);
+
+        React.useEffect(() => {
+          console.log('헬로');
+        }, [counter]);
 
         async function updateMainCat(value) {
           const newCat = await fetchCat(value);
