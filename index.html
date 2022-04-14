@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>햄스터 가라사대</title>
+    <title>고양이 가라사대</title>
   </head>
   <style>
     body {
@@ -48,11 +48,20 @@
         },
       };
 
+      const fetchCat = async (text) => {
+        const OPEN_API_DOMAIN = 'https://cataas.com';
+        const response = await fetch(
+          `${OPEN_API_DOMAIN}/cat/says/${text}?json=true`
+        );
+        const responseJson = await response.json();
+        return `${OPEN_API_DOMAIN}/${responseJson.url}`;
+      };
+
       const Title = (props) => {
         return <h1>{props.children}</h1>;
       };
 
-      const Form = ({ updateMainHamster }) => {
+      const Form = ({ updateMainCat }) => {
         const includesHangul = (text) => /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/i.test(text);
         const [value, setValue] = React.useState('');
         const [errorMessage, setErrorMessage] = React.useState('');
@@ -74,7 +83,7 @@
             setErrorMessage('빈 값으로 만들 수 없습니다.');
             return;
           }
-          updateMainHamster();
+          updateMainCat(value);
         }
 
         return (
@@ -92,7 +101,7 @@
         );
       };
 
-      const HamsterItem = (props) => {
+      const CatItem = (props) => {
         return (
           <li>
             <img src={props.img} style={{ width: '150px' }} />
@@ -103,8 +112,8 @@
       const Favorites = ({ favorites }) => {
         return (
           <ul className="favorites">
-            {favorites.map((hamster) => (
-              <HamsterItem img={hamster} key={hamster} />
+            {favorites.map((cat) => (
+              <CatItem img={cat} key={cat} />
             ))}
           </ul>
         );
@@ -113,7 +122,7 @@
       const MainCard = ({ img, onHeartClick }) => {
         return (
           <div className="main-card">
-            <img src={img} alt="햄스터" width="400" />
+            <img src={img} alt="고양이" width="400" />
             <button onClick={onHeartClick}>🤍</button>
           </div>
         );
@@ -127,34 +136,36 @@
         const HAMSTER3 =
           'https://media.bunjang.co.kr/images/crop/635932315_w320.jpg';
         const HAMSTER4 =
-          'https://en.meming.world/images/en/5/5f/Scared_Hamster.jpg';
+          'https://en.meming.world/images/en/5/5f/Scared_Cat.jpg';
 
         const [counter, setCounter] = React.useState(
           jsonLocalStorage.getItem('counter')
         );
-        const [mainHamster, setMainHamster] = React.useState(HAMSTER1);
+        const [mainCat, setMainCat] = React.useState(HAMSTER1);
         const [favorites, setFavorites] = React.useState(
           jsonLocalStorage.getItem('favorites') || []
         );
 
-        function updateMainHamster(event) {
-          setMainHamster(HAMSTER2);
+        async function updateMainCat(value) {
+          const newCat = await fetchCat(value);
+
+          setMainCat(newCat);
           const nextCounter = counter + 1;
           setCounter(nextCounter);
           jsonLocalStorage.setItem('counter', nextCounter);
         }
 
         function handleHeartClick() {
-          const nextFavorites = [...favorites, mainHamster];
+          const nextFavorites = [...favorites, mainCat];
           setFavorites(nextFavorites);
           jsonLocalStorage.setItem('favorites', nextFavorites);
         }
 
         return (
           <div>
-            <Title>{counter}번째 햄스터 가라사대</Title>
-            <Form updateMainHamster={updateMainHamster} />
-            <MainCard img={mainHamster} onHeartClick={handleHeartClick} />
+            <Title>{counter}번째 고양이 가라사대</Title>
+            <Form updateMainCat={updateMainCat} />
+            <MainCard img={mainCat} onHeartClick={handleHeartClick} />
             <Favorites favorites={favorites} />
           </div>
         );
