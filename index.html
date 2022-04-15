@@ -143,12 +143,12 @@
         const CAT4 = 'https://en.meming.world/images/en/5/5f/Scared_Cat.jpg';
 
         const [counter, setCounter] = React.useState(() => {
-          jsonLocalStorage.getItem('counter');
+          return jsonLocalStorage.getItem('counter');
         });
 
         const [mainCat, setMainCat] = React.useState(CAT1);
         const [favorites, setFavorites] = React.useState(() => {
-          jsonLocalStorage.getItem('favorites') || [];
+          return jsonLocalStorage.getItem('favorites') || [];
         });
 
         const alreadyFavorites = favorites.includes(mainCat);
@@ -186,6 +186,7 @@
         }
 
         const counterTitle = counter === null ? '' : counter + '번째';
+        console.log('counter ', counter);
 
         return (
           <div>
